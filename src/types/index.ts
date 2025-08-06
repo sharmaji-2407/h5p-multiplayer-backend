@@ -1,14 +1,22 @@
 export interface User {
   id: string;
-  name: string;
+  name?: string;
+  email: string;
+  password: string;
   isActive: boolean;
   gameData?: any;
+}
+
+export interface GameUser {
+  id: string;
+  email: string;
+  isActive: boolean;
 }
 
 export interface GameSession {
   id: string;
   gameId: string;
-  users: User[];
+  users: GameUser[];
   gameState: any;
   createdAt: Date;
   updatedAt: Date;

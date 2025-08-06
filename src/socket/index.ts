@@ -57,7 +57,7 @@ export default (httpServer: HttpServer) => {
             // Add new user
             gameSession.users.push({
               id: userId,
-              name: userName,
+              email: userName, // Using userName as email for now
               isActive: true,
             });
           }
@@ -142,7 +142,7 @@ export default (httpServer: HttpServer) => {
             gameSession.gameState.messages.push({
               userId,
               userName: gameSession.users.find((user) => user.id === userId)
-                ?.name,
+                ?.email,
               message: payload.message,
               timestamp: new Date(),
             });
@@ -214,7 +214,7 @@ export default (httpServer: HttpServer) => {
           // Notify others that user has left
           io.to(sessionId).emit(WebSocketEvents.USER_LEFT, {
             userId,
-            userName: gameSession.users[userIndex].name,
+            userName: gameSession.users[userIndex].email,
             gameSession,
           });
 

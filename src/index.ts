@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import config from "./config";
 import gameSessionRoutes from "./routes/gameSessionRoutes";
+import authRoutes from "./routes/auth.routes";
 import initializeSocket from "./socket";
 
 // Create Express app
@@ -22,6 +23,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api", gameSessionRoutes);
+app.use("/auth", authRoutes);
 
 // Root route for Vercel
 app.get("/", (req, res) => {

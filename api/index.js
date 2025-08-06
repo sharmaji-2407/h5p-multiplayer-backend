@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const config = require("../dist/config").default;
 const gameSessionRoutes = require("../dist/routes/gameSessionRoutes").default;
 const initializeSocket = require("../dist/socket").default;
+const authRoutes = require("../dist/routes/auth.routes").default;
 
 // Create Express app
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api", gameSessionRoutes);
+app.use("/auth", authRoutes);
 
 // Root route for Vercel
 app.get("/", (req, res) => {

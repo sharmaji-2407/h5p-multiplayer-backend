@@ -5,22 +5,22 @@ import { User } from "../types";
 
 export const createGameSession = async (req: Request, res: Response) => {
   try {
-    const { gameId, userId, userName } = req.body;
+    const { gameId, userId, userEmail } = req.body;
 
     console.log(
-      `Create session request: gameId=${gameId}, userId=${userId}, userName=${userName}`
+      `Create session request: gameId=${gameId}, userId=${userId}, userEmail=${userEmail}`
     );
 
-    if (!gameId || !userId || !userName) {
-      console.log("Missing required fields:", { gameId, userId, userName });
+    if (!gameId || !userId || !userEmail) {
+      console.log("Missing required fields:", { gameId, userId, userEmail });
       return res.status(400).json({ message: "Missing required fields" });
     }
 
     const sessionId = uuidv4();
     console.log(`Generated new session ID: ${sessionId}`);
-    const user: User = {
+    const user: Partial<User> = {
       id: userId,
-      name: userName,
+      email: userEmail,
       isActive: true,
     };
 
@@ -50,14 +50,14 @@ export const createGameSession = async (req: Request, res: Response) => {
 export const joinGameSession = async (req: Request, res: Response) => {
   try {
     const { sessionId } = req.params;
-    const { userId, userName } = req.body;
+    const { userId, userEmail } = req.body;
 
     console.log(
-      `Join request for session: ${sessionId}, user: ${userId}, name: ${userName}`
+      `Join request for session: ${sessionId}, user: ${userId}, email: ${userEmail}`
     );
 
-    if (!sessionId || !userId || !userName) {
-      console.log("Missing required fields:", { sessionId, userId, userName });
+    if (!sessionId || !userId || !userEmail) {
+      console.log("Missing required fields:", { sessionId, userId, userEmail });
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -81,12 +81,12 @@ export const joinGameSession = async (req: Request, res: Response) => {
       gameSession.users[existingUserIndex].isActive = true;
     } else {
       // Add new user
-      const newUser: User = {
+      const newUser: Partial<User> = {
         id: userId,
-        name: userName,
+        email: userEmail,
         isActive: true,
       };
-      gameSession.users.push(newUser);
+      gameSession.users.push(newUser as User);
     }
 
     await gameSession.save();
